@@ -1,0 +1,84 @@
+<div class="todos-main-wrapper">
+  <h2>Todos</h2>
+  <form class="example-form" [formGroup]="todosForm" (ngSubmit)="submitTodo()">
+    <mat-form-field class="example-full-width">
+      <mat-label>New Todo</mat-label>
+      <input
+        type="text"
+        matInput
+        placeholder="Enter new todo"
+        formControlName="title"
+      />
+      <div *ngIf="title.invalid && (title.dirty || title.touched)">
+        <mat-error *ngIf="title.errors.required">
+          A todo title required
+        </mat-error>
+      </div>
+    </mat-form-field>
+
+    <table class="example-full-width" cellspacing="0">
+      <tr>
+        <td>
+          <mat-form-field class="example-full-width">
+            <mat-label>Complete By</mat-label>
+            <input type="date" matInput formControlName="date" />
+          </mat-form-field>
+          <div *ngIf="date.invalid && (date.dirty || date.touched)">
+            <mat-error *ngIf="date.errors.required">
+              A complete by date is required
+            </mat-error>
+          </div>
+        </td>
+        <td>
+          <mat-form-field class="example-full-width">
+            <mat-label>Complete By Time</mat-label>
+            <input type="time" matInput formControlName="time" />
+          </mat-form-field>
+        </td>
+      </tr>
+    </table>
+    <button
+      style="margin: 2%"
+      type="submit"
+      mat-raised-button
+      color="primary"
+      [disabled]="!todosForm.valid"
+    >
+      Add
+    </button>
+  </form>
+
+  <ul class="todos-items-wrapper">
+    <!--We need to refactor this its own component-->
+    <li>
+      <div
+        style="
+          display: flex;
+          justify-content: center;
+          padding: 1%;
+          background-color: #767676;
+          height: 75px;
+          width: 80%;
+          margin: 1% 0;
+          border-radius: 10px;
+        "
+        *ngFor="let todo of todos; let i = index"
+      >
+        <div
+          style="width: 80%"
+          (click)="handleComplete(i)"
+          [ngClass]="{ 'todo-complete': todo.complete }"
+        >
+          <p><b>Title:</b> {{ todo.title }}</p>
+          <br />
+          <p><b>Complete by:</b> {{ todo.date }} - {{ todo.time }}</p>
+        </div>
+        <div style="display: flex; justify-content: flex-end; width: 20%">
+          <mat-icon style="color: tomato" (click)="handleDeleteTodo(i)"
+            >delete</mat-icon
+          >
+        </div>
+      </div>
+    </li>
+  </ul>
+</div>

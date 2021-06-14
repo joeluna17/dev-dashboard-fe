@@ -1,0 +1,48 @@
+.todos-main-wrapper {
+  display: flex;
+  flex-direction: column;
+  width: 80vw;
+  height: calc(100vh - 150px);
+  color: #fff;
+}
+
+mat-form-field {
+  color: fff;
+
+  input {
+    color: fff;
+    border-radius: 10px;
+  }
+
+  mat-label {
+    color: fff;
+  }
+}
+
+mat-error {
+  font-size: 14px;
+}
+
+.example-form {
+  min-width: 150px;
+  max-width: 500px;
+  width: 100%;
+}
+
+.example-full-width {
+  width: 100%;
+  color: #fff;
+}
+
+.todo-complete {
+  text-decoration: line-through;
+  color: salmon;
+}
+.todos-items-wrapper {
+  padding: 2%;
+  list-style: none;
+
+  li:hover {
+    cursor: pointer;
+  }
+}
