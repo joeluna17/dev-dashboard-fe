@@ -1,22 +1,39 @@
-<div
-  style="
-    background-color: #121212;
-    color: #fff;
-    display: flex;
-    justify-content: center;
-    width: 80vw;
-    height: 500px;
-    border-radius: 10px;
-  "
->
-  <div
-    style="
-      background-color: #292929;
-      width: 200px;
-      height: 200px;
-      border-radius: 10px;
-    "
-  >
-    Login Example
+<div class="login-main-wrapper">
+  <div class="form-wrapper">
+    <h1>Login to Dev Dashboard</h1>
+    <form [formGroup]="loginForm" (ngSubmit)="submitLogin()">
+      <input type="text" placeholder="Username" formControlName="userName" />
+      <div
+        *ngIf="
+          userName.errors?.required && (userName.dirty || userName.touched)
+        "
+        class="error"
+      >
+        *Username Required
+      </div>
+      <input
+        type="password"
+        placeholder="Password"
+        formControlName="password"
+      />
+      <div
+        *ngIf="
+          password.errors?.required && (password.dirty || password.touched)
+        "
+        class="error"
+      >
+        *Password Required
+      </div>
+      <input
+        type="submit"
+        [disabled]="!loginForm.valid"
+        class="app-button"
+        [ngClass]="{ 'btn-disabled': !loginForm.valid }"
+      />
+
+      <div *ngIf="asyncErrorMessage !== null" class="error">
+        {{ asyncErrorMessage }}
+      </div>
+    </form>
   </div>
 </div>

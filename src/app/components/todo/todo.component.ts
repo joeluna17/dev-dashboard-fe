@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { FormBuilder, Validators } from '@angular/forms';
+import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 import { ErrorStateMatcher } from '@angular/material/core';
 
 @Component({
@@ -14,10 +14,10 @@ export class TodoComponent implements OnInit {
     { title: 'Refactor TS', date: '', time: '', complete: false },
   ];
 
-  todosForm = this.fb.group({
-    title: ['', [Validators.required]],
-    date: ['', [Validators.required]],
-    time: [''],
+  public todosForm: FormGroup = this.fb.group({
+    title: [null, [Validators.required]],
+    date: [null, [Validators.required]],
+    time: [null],
   });
 
   get title() {
@@ -60,3 +60,5 @@ export class TodoComponent implements OnInit {
     this.todos.splice(i, 1); // remove 1 item at index i
   }
 }
+
+//https://www.codementor.io/@jimohhadi/angular-validators-with-conditional-validation-in-reactive-forms-pj5z7gsq5

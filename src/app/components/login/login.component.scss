@@ -1,0 +1,52 @@
+.login-main-wrapper {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 25vw;
+  flex-direction: column;
+}
+
+.form-wrapper {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+}
+
+.form-wrapper form {
+  display: flex;
+  justify-content: center;
+  flex-direction: column;
+  width: 100%;
+  border: 3px solid white;
+  padding: 30%;
+  background-color: whitesmoke;
+  border-radius: 8px;
+}
+
+.form-wrapper form input {
+  height: 30px;
+  border-radius: 8px;
+  margin-top: 2%;
+}
+
+.app-button {
+  background-color: dodgerblue;
+  color: white;
+  border: none;
+
+  :hover {
+    background-color: darken($color: dodgerblue, $amount: 50);
+  }
+}
+
+.btn-disabled {
+  background-color: dimgray;
+  color: grey;
+}
+
+.error {
+  margin: 1% 0;
+  font-size: 12px;
+  color: indianred;
+}

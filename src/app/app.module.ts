@@ -1,5 +1,6 @@
 import { NgModule } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
+import { HttpClientModule } from '@angular/common/http';
 import { FormsModule } from '@angular/forms';
 import { ReactiveFormsModule } from '@angular/forms';
 
@@ -11,6 +12,8 @@ import { TodoComponent } from './components/todo/todo.component';
 import { TileComponent } from './components/tile/tile.component';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { PageNotFoundComponent } from './components/page-not-found/page-not-found.component';
+
+import { AppService } from '../services/app/app.service';
 
 /*Material UI Imports*/
 import { MatSidenavModule } from '@angular/material/sidenav';
@@ -32,6 +35,7 @@ import { MatInputModule } from '@angular/material/input';
   ],
   imports: [
     BrowserModule,
+    HttpClientModule,
     AppRoutingModule,
     FormsModule,
     ReactiveFormsModule,
@@ -44,7 +48,7 @@ import { MatInputModule } from '@angular/material/input';
     LayoutModule,
     MatInputModule,
   ],
-  providers: [],
+  providers: [AppService],
   bootstrap: [AppComponent],
 })
 export class AppModule {}
