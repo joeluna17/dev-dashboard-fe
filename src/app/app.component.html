@@ -1,4 +1,4 @@
-<mat-toolbar>
+<mat-toolbar class="app-header">
   <button
     mat-icon-button
     *ngIf="sidenav.mode === 'over'"
@@ -60,6 +60,7 @@
   <mat-sidenav-content>
     <div class="content mat-elevation-z8">
       <router-outlet></router-outlet>
+      <!--Display Page-->
     </div>
   </mat-sidenav-content>
 </mat-sidenav-container>

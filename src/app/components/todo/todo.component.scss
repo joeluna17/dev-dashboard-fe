@@ -24,9 +24,14 @@ mat-error {
 }
 
 .example-form {
+  display: flex;
+  flex-flow: row wrap;
   min-width: 150px;
-  max-width: 500px;
-  width: 100%;
+  width: 45%;
+  border: 2px solid rgba(0, 0, 0, 0.4);
+  padding: 2%;
+  border-radius: 5px;
+  box-shadow: 0 5px 8px 0 rgba(0, 0, 0, 0.2);
 }
 
 .example-full-width {

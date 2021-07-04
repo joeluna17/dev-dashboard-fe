@@ -3,7 +3,7 @@
 }
 
 mat-toolbar {
-  background: #1c1c1c;
+  background: #312f2f;
   color: white;
 }
 
@@ -11,7 +11,7 @@ mat-sidenav {
   margin: 16px;
   width: 200px;
   border-right: none;
-  background: #3c3c3c;
+  background: #22181c;
   color: white;
   border-radius: 10px;
   padding: 16px;
@@ -34,8 +34,10 @@ mat-sidenav {
   align-items: center;
 
   font-size: 2rem;
-  color: lightgray;
-  background-color: #3c3c3c;
+  color: rgba(0, 0, 0, 0.5);
+  background-color: #eafdf8;
+
+  overflow-y: scroll;
 }
 
 mat-sidenav-container {

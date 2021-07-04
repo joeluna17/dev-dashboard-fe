@@ -23,6 +23,8 @@ import { MatIconModule } from '@angular/material/icon';
 import { MatDividerModule } from '@angular/material/divider';
 import { LayoutModule } from '@angular/cdk/layout';
 import { MatInputModule } from '@angular/material/input';
+import { MatExpansionModule } from '@angular/material/expansion';
+import { MatCheckboxModule } from '@angular/material/checkbox';
 
 @NgModule({
   declarations: [
@@ -47,6 +49,8 @@ import { MatInputModule } from '@angular/material/input';
     MatDividerModule,
     LayoutModule,
     MatInputModule,
+    MatExpansionModule,
+    MatCheckboxModule,
   ],
   providers: [AppService],
   bootstrap: [AppComponent],
