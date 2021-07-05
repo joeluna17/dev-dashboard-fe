@@ -12,6 +12,7 @@ import { TodoComponent } from './components/todo/todo.component';
 import { TileComponent } from './components/tile/tile.component';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { PageNotFoundComponent } from './components/page-not-found/page-not-found.component';
+import { DetailTileComponent } from './components/global/detail-tile/detail-tile.component';
 
 import { AppService } from '../services/app/app.service';
 
@@ -25,7 +26,7 @@ import { LayoutModule } from '@angular/cdk/layout';
 import { MatInputModule } from '@angular/material/input';
 import { MatExpansionModule } from '@angular/material/expansion';
 import { MatCheckboxModule } from '@angular/material/checkbox';
-import { DetailTileComponent } from './components/global/detail-tile/detail-tile.component';
+import { MatSelectModule } from '@angular/material/select';
 
 @NgModule({
   declarations: [
@@ -53,6 +54,7 @@ import { DetailTileComponent } from './components/global/detail-tile/detail-tile
     MatInputModule,
     MatExpansionModule,
     MatCheckboxModule,
+    MatSelectModule,
   ],
   providers: [AppService],
   bootstrap: [AppComponent],

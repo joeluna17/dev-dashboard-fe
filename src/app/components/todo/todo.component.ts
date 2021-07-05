@@ -2,7 +2,6 @@ import { Component, OnInit, ViewChild } from '@angular/core';
 import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 import { MatAccordion } from '@angular/material/expansion';
 import { ErrorStateMatcher } from '@angular/material/core';
-import { Observable } from 'rxjs';
 
 @Component({
   selector: 'app-todo',
@@ -66,6 +65,7 @@ export class TodoComponent implements OnInit {
       'Go to Azure and we sure that we are not pointed to production from develop'
     ),
   ];
+  public filterTodosRest: Array<ITodo> = [];
   public showAchievement: boolean = true;
 
   // { title: 'Review Pull Request', date: '', time: '', complete: true },
@@ -82,6 +82,14 @@ export class TodoComponent implements OnInit {
   }
   get date() {
     return this.todosForm.get('date');
+  }
+
+  public filterTodosGroup: FormGroup = this.fb.group({
+    filterSelect: [null, [Validators.required]],
+  });
+
+  get filterSelect() {
+    return this.filterTodosGroup.get('filterSelect');
   }
 
   constructor(private fb: FormBuilder) {}
@@ -148,6 +156,23 @@ export class TodoComponent implements OnInit {
       this.showAchievement = true;
       return false;
     }
+  }
+
+  filterTodos() {
+    this.filterTodosRest = [...this.todos];
+    const filter: string = this.filterTodosGroup.value.filterSelect;
+    let holder: Array<ITodo> = [];
+    this.todos.forEach((todo, i) => {
+      if (todo[filter as keyof ITodo]) {
+        holder.push(todo);
+      }
+    });
+    this.todos = [...holder];
+  }
+
+  resetTodos() {
+    this.todos = [...this.filterTodosRest];
+    this.filterTodosGroup.reset();
   }
 
   showTodosComplete(): string {

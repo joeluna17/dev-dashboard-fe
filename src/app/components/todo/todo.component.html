@@ -95,106 +95,165 @@
           {{ handleCalcProgress() }}% Complete
         </ng-container>
       </div>
-      <ng-container *ngIf="handleShowFinishReward()">
+      <!-- <ng-container *ngIf="handleShowFinishReward()">
         <img
           style="width: 100px; height: 100px"
           src="https://media.giphy.com/media/dalJ0CpF7hwmN1nZXe/giphy.gif"
         />
-      </ng-container>
+      </ng-container> -->
     </div>
   </div>
 
   <div>
-    <div style="margin-top: 3%" class="example-action-buttons">
-      <button
-        style="color: rgba(0, 0, 0, 0.5)"
-        mat-button
-        (click)="accordion.openAll()"
-      >
-        Expand All
-      </button>
-      <button
-        style="color: rgba(0, 0, 0, 0.5)"
-        mat-button
-        (click)="accordion.closeAll()"
-      >
-        Collapse All
-      </button>
-    </div>
+    <div style="display: flex; justify-content: space-around">
+      <div style="margin-top: 3%; width: 45%" class="example-action-buttons">
+        <button
+          style="color: rgba(0, 0, 0, 0.5)"
+          mat-button
+          (click)="accordion.openAll()"
+        >
+          Expand All
+        </button>
+        <button
+          style="color: rgba(0, 0, 0, 0.5)"
+          mat-button
+          (click)="accordion.closeAll()"
+        >
+          Collapse All
+        </button>
+      </div>
 
-    <ul class="todos-items-wrapper">
-      <!--We need to refactor this its own component-->
-      <li>
-        <div
+      <div style="margin-top: 3%; width: 45%">
+        <form
+          [formGroup]="filterTodosGroup"
+          (submit)="filterTodos()"
           style="
             display: flex;
-            justify-content: center;
-            padding: 1%;
-            background-color: #767676;
-            width: 80%;
-            margin: 1% 0;
-            border-radius: 10px;
+            justify-content: flex-start;
+            flex-direction: column;
+            width: 60%;
           "
-          *ngFor="let todo of todos; let i = index"
         >
+          <mat-form-field>
+            <mat-label style="color: rgba(0, 0, 0, 0.5)">Filter By</mat-label>
+            <mat-select
+              style="color: rgba(0, 0, 0, 0.5)"
+              formControlName="filterSelect"
+            >
+              <mat-option value="complete">Complete</mat-option>
+              <mat-option value="paused">Paused</mat-option>
+            </mat-select>
+          </mat-form-field>
+
           <div
             style="
               display: flex;
-              justify-content: flex-start;
-              flex-direction: column;
+              justify-content: space-between;
+              flex-flow: row wrap;
               width: 100%;
             "
           >
-            <div
-              style="width: 80%"
-              (click)="handleComplete(i)"
-              [ngClass]="{ 'todo-complete': todo.complete }"
+            <button
+              style="margin: 2%; width: 200px; height: 60px; font-size: 1.5vw"
+              type="submit"
+              mat-button
+              mat-raised-button
+              color="primary"
+              [disabled]="false"
             >
-              <p><b>Title:</b> {{ todo.title }}</p>
-              <br />
-              <p><b>Complete by:</b> {{ todo.date }} - {{ todo.time }}</p>
-            </div>
+              Filter
+            </button>
 
-            <div>
-              <mat-accordion multi>
-                <mat-expansion-panel>
-                  <mat-expansion-panel-header>
-                    <mat-panel-title> Description </mat-panel-title>
-                    <mat-panel-description>
-                      Show description
-                    </mat-panel-description>
-                  </mat-expansion-panel-header>
-                  <p>{{ todo.description }}</p>
-                </mat-expansion-panel>
-              </mat-accordion>
-            </div>
+            <button
+              type="button"
+              style="margin: 2%; width: 200px; height: 60px; font-size: 1.5vw"
+              (click)="resetTodos()"
+              mat-button
+              mat-raised-button
+              color="primary"
+              [disabled]="false"
+            >
+              Reset
+            </button>
           </div>
-
+        </form>
+      </div>
+    </div>
+    <div>
+      <ul class="todos-items-wrapper">
+        <!--We need to refactor this its own component-->
+        <li>
           <div
             style="
               display: flex;
-              flex-direction: column;
-              justify-content: flex-end;
-              align-items: center;
-              width: 20%;
+              justify-content: center;
+              padding: 1%;
+              background-color: #767676;
+              width: 80%;
+              margin: 1% 0;
+              border-radius: 10px;
             "
+            *ngFor="let todo of todos; let i = index"
           >
-            <mat-icon
-              style="color: tomato; height: 50%"
-              (click)="handleDeleteTodo(i)"
-              >delete</mat-icon
+            <div
+              style="
+                display: flex;
+                justify-content: flex-start;
+                flex-direction: column;
+                width: 100%;
+              "
             >
-            <mat-checkbox
-              style="font-size: 16px"
-              color="warn"
-              class=""
-              [checked]="todo.paused"
-              (change)="handleTogglePaused(i)"
-              >Paused</mat-checkbox
+              <div
+                style="width: 80%"
+                (click)="handleComplete(i)"
+                [ngClass]="{ 'todo-complete': todo.complete }"
+              >
+                <p><b>Title:</b> {{ todo.title }}</p>
+                <br />
+                <p><b>Complete by:</b> {{ todo.date }} - {{ todo.time }}</p>
+              </div>
+
+              <div>
+                <mat-accordion multi>
+                  <mat-expansion-panel>
+                    <mat-expansion-panel-header>
+                      <mat-panel-title> Description </mat-panel-title>
+                      <mat-panel-description>
+                        Show description
+                      </mat-panel-description>
+                    </mat-expansion-panel-header>
+                    <p>{{ todo.description }}</p>
+                  </mat-expansion-panel>
+                </mat-accordion>
+              </div>
+            </div>
+
+            <div
+              style="
+                display: flex;
+                flex-direction: column;
+                justify-content: flex-end;
+                align-items: center;
+                width: 20%;
+              "
             >
+              <mat-icon
+                style="color: tomato; height: 50%"
+                (click)="handleDeleteTodo(i)"
+                >delete</mat-icon
+              >
+              <mat-checkbox
+                style="font-size: 16px"
+                color="warn"
+                class=""
+                [checked]="todo.paused"
+                (change)="handleTogglePaused(i)"
+                >Paused</mat-checkbox
+              >
+            </div>
           </div>
-        </div>
-      </li>
-    </ul>
+        </li>
+      </ul>
+    </div>
   </div>
 </div>
