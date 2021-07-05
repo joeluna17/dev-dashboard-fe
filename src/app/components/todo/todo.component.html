@@ -71,125 +71,36 @@
       </button>
     </form>
     <div style="display: flex; justify-content: space-evenly; width: 50%">
-      <div
-        style="
-          display: flex;
-          justify-content: center;
-          flex-direction: row;
-          width: 250px;
-          height: 100px;
-          border: 2px solid #1b9aaa;
-          border-radius: 5px;
-          box-shadow: 0 5px 8px 0 rgba(0, 0, 0, 0.2);
-        "
-      >
-        <div
-          style="
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            width: 40%;
-            background-color: white;
-            color: black;
-            font-size: 14px;
-            font-weight: 700;
-            text-align: center;
-          "
-        >
-          Todos Total
-        </div>
-        <div
-          style="
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            width: 60%;
-            background-color: #1b9aaa;
-          "
-        >
-          {{ todos.length }}
-        </div>
-      </div>
+      <app-detail-tile
+        [title]="todosTitle"
+        [value]="todos.length"
+        [colour]="tileColours[0]"
+      ></app-detail-tile>
 
-      <div
-        style="
-          display: flex;
-          justify-content: center;
-          flex-direction: row;
-          width: 250px;
-          height: 100px;
-          border: 2px solid #06d6a0;
-          border-radius: 5px;
-          box-shadow: 0 5px 8px 0 rgba(0, 0, 0, 0.2);
-        "
-      >
-        <div
-          style="
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            width: 40%;
-            background-color: white;
-            color: black;
-            font-size: 14px;
-            font-weight: 700;
-            text-align: center;
-          "
-        >
-          Todos Complete Total
-        </div>
-        <div
-          style="
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            width: 60%;
-            background-color: #06d6a0;
-          "
-        >
-          {{ showTodosComplete() }}
-        </div>
-      </div>
+      <app-detail-tile
+        [title]="completeTitle"
+        [value]="showTodosComplete()"
+        [colour]="tileColours[1]"
+      ></app-detail-tile>
 
-      <div
-        style="
-          display: flex;
-          justify-content: center;
-          flex-direction: row;
-          width: 250px;
-          height: 100px;
-          border: 2px solid #ffc43d;
-          border-radius: 5px;
-          box-shadow: 0 5px 8px 0 rgba(0, 0, 0, 0.2);
-        "
-      >
-        <div
-          style="
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            width: 40%;
-            background-color: white;
-            color: black;
-            font-size: 14px;
-            font-weight: 700;
-            text-align: center;
-          "
-        >
-          Todos Paused Total
-        </div>
-        <div
-          style="
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            width: 60%;
-            background-color: #ffc43d;
-          "
-        >
-          {{ showTodosPaused() }}
-        </div>
+      <app-detail-tile
+        [title]="pausedTitle"
+        [value]="showTodosPaused()"
+        [colour]="tileColours[2]"
+      ></app-detail-tile>
+    </div>
+    <div class="app-progress-meter-container">
+      <div class="app-progress-meter" [ngStyle]="setStyles()">
+        <ng-container *ngIf="handleCalcProgress() !== '0'">
+          {{ handleCalcProgress() }}% Complete
+        </ng-container>
       </div>
+      <ng-container *ngIf="handleShowFinishReward()">
+        <img
+          style="width: 100px; height: 100px"
+          src="https://media.giphy.com/media/dalJ0CpF7hwmN1nZXe/giphy.gif"
+        />
+      </ng-container>
     </div>
   </div>
 
@@ -274,10 +185,12 @@
               >delete</mat-icon
             >
             <mat-checkbox
-              class="example-margin"
+              style="font-size: 16px"
+              color="warn"
+              class=""
               [checked]="todo.paused"
               (change)="handleTogglePaused(i)"
-              >Checked</mat-checkbox
+              >Paused</mat-checkbox
             >
           </div>
         </div>
@@ -285,7 +198,3 @@
     </ul>
   </div>
 </div>
-
-<!--
-  Robin Egg BLue: #36C9C6
--->

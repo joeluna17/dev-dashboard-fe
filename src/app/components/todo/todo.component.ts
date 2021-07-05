@@ -2,6 +2,7 @@ import { Component, OnInit, ViewChild } from '@angular/core';
 import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 import { MatAccordion } from '@angular/material/expansion';
 import { ErrorStateMatcher } from '@angular/material/core';
+import { Observable } from 'rxjs';
 
 @Component({
   selector: 'app-todo',
@@ -11,6 +12,10 @@ import { ErrorStateMatcher } from '@angular/material/core';
 export class TodoComponent implements OnInit {
   @ViewChild(MatAccordion) accordion: MatAccordion;
   panelOpenState = false;
+  public todosTitle: string = 'Todo Total';
+  public completeTitle: string = 'Todos Complete Total';
+  public pausedTitle: string = 'Todos Paused Total';
+  public tileColours: Array<string> = ['1b9aaa', '06d6a0', 'ffc43d'];
   public todos: Array<Todo> = [
     new Todo(
       'Eat Food',
@@ -61,6 +66,7 @@ export class TodoComponent implements OnInit {
       'Go to Azure and we sure that we are not pointed to production from develop'
     ),
   ];
+  public showAchievement: boolean = true;
 
   // { title: 'Review Pull Request', date: '', time: '', complete: true },
   // { title: 'Refactor TS', date: '', time: '', complete: false },
@@ -81,6 +87,14 @@ export class TodoComponent implements OnInit {
   constructor(private fb: FormBuilder) {}
 
   ngOnInit(): void {}
+
+  setStyles() {
+    const progress = this.handleCalcProgress();
+    return {
+      backgroundColor: 'rebeccapurple',
+      width: `${progress}%`,
+    };
+  }
 
   submitTodo() {
     console.log(this.todosForm);
@@ -115,6 +129,25 @@ export class TodoComponent implements OnInit {
 
   handleTogglePaused(i: number) {
     this.todos[i].paused = !this.todos[i].paused;
+  }
+
+  handleCalcProgress(): string {
+    const complete = this.todos.filter((todo) => todo.complete).length;
+    const todoTotal = this.todos.length;
+    const prog = String(Math.floor((complete / todoTotal) * 100));
+    return prog;
+  }
+
+  handleShowFinishReward() {
+    if (this.handleCalcProgress() === '100' && this.showAchievement) {
+      setTimeout(() => {
+        this.showAchievement = false;
+      }, 8000);
+      return true;
+    } else {
+      this.showAchievement = true;
+      return false;
+    }
   }
 
   showTodosComplete(): string {

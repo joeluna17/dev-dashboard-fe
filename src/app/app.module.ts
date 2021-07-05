@@ -25,6 +25,7 @@ import { LayoutModule } from '@angular/cdk/layout';
 import { MatInputModule } from '@angular/material/input';
 import { MatExpansionModule } from '@angular/material/expansion';
 import { MatCheckboxModule } from '@angular/material/checkbox';
+import { DetailTileComponent } from './components/global/detail-tile/detail-tile.component';
 
 @NgModule({
   declarations: [
@@ -34,6 +35,7 @@ import { MatCheckboxModule } from '@angular/material/checkbox';
     TodoComponent,
     TileComponent,
     PageNotFoundComponent,
+    DetailTileComponent,
   ],
   imports: [
     BrowserModule,
