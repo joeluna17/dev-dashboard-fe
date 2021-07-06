@@ -70,7 +70,14 @@
         Add Todo
       </button>
     </form>
-    <div style="display: flex; justify-content: space-evenly; width: 50%">
+    <div
+      style="
+        display: flex;
+        justify-content: space-evenly;
+        flex-flow: row wrap;
+        width: 50%;
+      "
+    >
       <app-detail-tile
         [title]="todosTitle"
         [value]="todos.length"
