@@ -13,6 +13,7 @@ import { TileComponent } from './components/tile/tile.component';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { PageNotFoundComponent } from './components/page-not-found/page-not-found.component';
 import { DetailTileComponent } from './components/global/detail-tile/detail-tile.component';
+import { ProfileComponent } from './components/profile/profile.component';
 
 import { AppService } from '../services/app/app.service';
 
@@ -28,6 +29,7 @@ import { MatExpansionModule } from '@angular/material/expansion';
 import { MatCheckboxModule } from '@angular/material/checkbox';
 import { MatSelectModule } from '@angular/material/select';
 
+
 @NgModule({
   declarations: [
     AppComponent,
@@ -37,6 +39,7 @@ import { MatSelectModule } from '@angular/material/select';
     TileComponent,
     PageNotFoundComponent,
     DetailTileComponent,
+    ProfileComponent,
   ],
   imports: [
     BrowserModule,

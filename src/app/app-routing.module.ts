@@ -3,11 +3,13 @@ import { RouterModule, Routes } from '@angular/router';
 import { DashboardComponent } from './components/dashboard/dashboard.component';
 import { LoginComponent } from './components/login/login.component';
 import { TodoComponent } from './components/todo/todo.component';
+import { ProfileComponent } from './components/profile/profile.component';
 import { PageNotFoundComponent } from './components/page-not-found/page-not-found.component';
 
 const routes: Routes = [
   { path: 'dashboard', component: DashboardComponent },
   { path: 'login', component: LoginComponent },
+  { path: 'profile', component: ProfileComponent },
   { path: 'todos', component: TodoComponent },
   { path: '', redirectTo: 'dashboard', pathMatch: 'full' }, // redirect to `dashboard`, this is like the index page
   { path: '**', component: PageNotFoundComponent }, // Wildcard route for a 404 page

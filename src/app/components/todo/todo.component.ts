@@ -11,12 +11,14 @@ import { ErrorStateMatcher } from '@angular/material/core';
 export class TodoComponent implements OnInit {
   @ViewChild(MatAccordion) accordion: MatAccordion;
   panelOpenState = false;
+  public todoFactory: TodoFactory = new TodoFactory();
   public todosTitle: string = 'Todo Total';
   public completeTitle: string = 'Todos Complete Total';
   public pausedTitle: string = 'Todos Paused Total';
   public tileColours: Array<string> = ['1b9aaa', '06d6a0', 'ffc43d'];
-  public todos: Array<Todo> = [
-    new Todo(
+  public todos: Array<ITodo> = [
+    new PersonalTodo(
+      ETodoType.Personal,
       'Eat Food',
       '12/23/2021',
       '',
@@ -24,7 +26,8 @@ export class TodoComponent implements OnInit {
       false,
       'Need to do this asap or we are going to get grumpy!'
     ),
-    new Todo(
+    new PersonalTodo(
+      ETodoType.Personal,
       'Check PRs',
       '12/24/2021',
       '',
@@ -32,7 +35,18 @@ export class TodoComponent implements OnInit {
       true,
       'There is a spacial case that we are looking for and we need to make sure this is possible'
     ),
-    new Todo(
+    new WorkTodo(
+      ETodoType.Work,
+      'Production Check',
+      '12/24/2021',
+      '',
+      false,
+      false,
+      'Go to Azure and we sure that we are not pointed to production from develop',
+      ''
+    ),
+    new PersonalTodo(
+      ETodoType.Personal,
       'Production Check',
       '12/24/2021',
       '',
@@ -40,29 +54,25 @@ export class TodoComponent implements OnInit {
       false,
       'Go to Azure and we sure that we are not pointed to production from develop'
     ),
-    new Todo(
-      'Production Check',
-      '12/24/2021',
-      '',
-      false,
-      false,
-      'Go to Azure and we sure that we are not pointed to production from develop'
-    ),
-    new Todo(
+    new WorkTodo(
+      ETodoType.Work,
       'Production Check',
       '12/24/2021',
       '',
       true,
       false,
-      'Go to Azure and we sure that we are not pointed to production from develop'
+      'Go to Azure and we sure that we are not pointed to production from develop',
+      ''
     ),
-    new Todo(
+    new WorkTodo(
+      ETodoType.Work,
       'Production Check',
       '12/24/2021',
       '',
       false,
       false,
-      'Go to Azure and we sure that we are not pointed to production from develop'
+      'Go to Azure and we sure that we are not pointed to production from develop',
+      ''
     ),
   ];
   public filterTodosRest: Array<ITodo> = [];
@@ -72,9 +82,11 @@ export class TodoComponent implements OnInit {
   // { title: 'Refactor TS', date: '', time: '', complete: false },
 
   public todosForm: FormGroup = this.fb.group({
+    type: [null, [Validators.required]],
     title: [null, [Validators.required]],
     date: [null, [Validators.required]],
     time: [null],
+    requestor: [null],
   });
 
   get title() {
@@ -82,6 +94,10 @@ export class TodoComponent implements OnInit {
   }
   get date() {
     return this.todosForm.get('date');
+  }
+
+  get requestor() {
+    return this.todosForm.get('requestor');
   }
 
   public filterTodosGroup: FormGroup = this.fb.group({
@@ -105,21 +121,29 @@ export class TodoComponent implements OnInit {
   }
 
   submitTodo() {
-    console.log(this.todosForm);
-    const newTodo: Todo = new Todo(
+    const newTodo: ITodo = this.todoFactory.getTodo(
+      this.todosForm.value.type,
       this.todosForm.value.title,
       this.todosForm.value.date,
       this.todosForm.value.time,
       false,
       false,
-      ''
+      '',
+      this.todosForm.value.requestor
     );
+    console.log(newTodo, typeof newTodo);
     this.todos.push(newTodo);
     this.clearForm();
   }
 
   clearForm() {
-    this.todosForm.setValue({ title: '', date: '', time: '' });
+    this.todosForm.setValue({
+      type: '',
+      title: '',
+      date: '',
+      time: '',
+      requestor: '',
+    });
     this.todosForm.reset();
     Object.keys(this.todosForm.controls).forEach((key) => {
       // this code resets the errors & validaion back to inital state
@@ -164,6 +188,7 @@ export class TodoComponent implements OnInit {
     let holder: Array<ITodo> = [];
     this.todos.forEach((todo, i) => {
       if (todo[filter as keyof ITodo]) {
+        // rember that here we are using classes so accessing key like we do in a pojo cannot be done in TS hence the keyOf
         holder.push(todo);
       }
     });
@@ -186,24 +211,102 @@ export class TodoComponent implements OnInit {
 
 //https://www.codementor.io/@jimohhadi/angular-validators-with-conditional-validation-in-reactive-forms-pj5z7gsq5
 
+// interface ITodo {
+//   title: string;
+//   date: string;
+//   time: string;
+//   complete: boolean;
+//   paused: boolean;
+//   description: string;
+// }
+
+// class Todo implements ITodo {
+//   title: string;
+//   date: string;
+//   time: string;
+//   complete: boolean;
+//   paused: boolean;
+//   description: string;
+
+//   constructor(
+//     title: string,
+//     date: string,
+//     time: string,
+//     complete: boolean = false,
+//     paused: boolean = false,
+//     description: string
+//   ) {
+//     this.title = title;
+//     this.date = date;
+//     this.time = time;
+//     this.complete = complete;
+//     this.paused = paused;
+//     this.description = description;
+//   }
+// }
+
 interface ITodo {
+  type: ETodoType;
   title: string;
   date: string;
   time: string;
   complete: boolean;
   paused: boolean;
   description: string;
+  getInfo(): void;
 }
 
-class Todo implements ITodo {
+enum ETodoType {
+  Work = 1,
+  Personal = 2,
+}
+
+class WorkTodo implements ITodo {
+  type: ETodoType;
   title: string;
   date: string;
   time: string;
   complete: boolean;
   paused: boolean;
   description: string;
+  requestor: string;
 
   constructor(
+    type: ETodoType,
+    title: string,
+    date: string,
+    time: string,
+    complete: boolean = false,
+    paused: boolean = false,
+    description: string,
+    requestor: string
+  ) {
+    this.type = type;
+    this.title = title;
+    this.date = date;
+    this.time = time;
+    this.complete = complete;
+    this.paused = paused;
+    this.description = description;
+    this.requestor = requestor;
+  }
+
+  getInfo(): void {
+    throw new Error('Method not implemented.');
+  }
+}
+
+class PersonalTodo implements ITodo {
+  public type: ETodoType;
+  public title: string;
+  public date: string;
+  public time: string;
+  public complete: boolean;
+  public paused: boolean;
+  public description: string;
+
+  constructor(
+    type: ETodoType,
     title: string,
     date: string,
     time: string,
@@ -211,11 +314,65 @@ class Todo implements ITodo {
     paused: boolean = false,
     description: string
   ) {
+    this.type = type;
     this.title = title;
     this.date = date;
     this.time = time;
     this.complete = complete;
     this.paused = paused;
     this.description = description;
+  }
+
+  getInfo(): void {
+    throw new Error('Method not implemented.');
+  }
+}
+
+class TodoFactory {
+  public getTodo(
+    type: ETodoType,
+    title: any,
+    date: any,
+    time: any,
+    complete: any,
+    paused: any,
+    description: any,
+    requestor: string
+  ): ITodo {
+    console.log(type);
+    switch (Number(type)) {
+      case ETodoType.Work:
+        return new WorkTodo(
+          type,
+          title,
+          date,
+          time,
+          complete,
+          paused,
+          description,
+          requestor
+        );
+      case ETodoType.Personal:
+        return new PersonalTodo(
+          type,
+          title,
+          date,
+          time,
+          complete,
+          paused,
+          description
+        );
+      default:
+        return new WorkTodo(
+          type,
+          title,
+          date,
+          time,
+          complete,
+          paused,
+          description,
+          requestor
+        );
+    }
   }
 }

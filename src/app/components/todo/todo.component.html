@@ -13,6 +13,22 @@
       [formGroup]="todosForm"
       (ngSubmit)="submitTodo()"
     >
+      <select formControlName="type">
+        <option value="1">WORK</option>
+        <option value="2">PERSONAL</option>
+      </select>
+
+      <mat-form-field class="example-full-width">
+        <mat-label>Requestor</mat-label>
+        <input
+          style="color: rgba(0, 0, 0, 0.5)"
+          type="text"
+          matInput
+          placeholder="Enter Requestors Name"
+          formControlName="requestor"
+        />
+      </mat-form-field>
+
       <mat-form-field class="example-full-width">
         <mat-label>New Todo</mat-label>
         <input
@@ -216,6 +232,8 @@
                 [ngClass]="{ 'todo-complete': todo.complete }"
               >
                 <p><b>Title:</b> {{ todo.title }}</p>
+                &nbsp;&nbsp;
+                <p><b>Type:</b> {{ todo.type }}</p>
                 <br />
                 <p><b>Complete by:</b> {{ todo.date }} - {{ todo.time }}</p>
               </div>
